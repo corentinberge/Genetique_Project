@@ -123,6 +123,33 @@ Genetique_Project/fast:
 	$(MAKE) -f CMakeFiles/Genetique_Project.dir/build.make CMakeFiles/Genetique_Project.dir/build
 .PHONY : Genetique_Project/fast
 
+Test/nsgaorig.o: Test/nsgaorig.c.o
+
+.PHONY : Test/nsgaorig.o
+
+# target to build an object file
+Test/nsgaorig.c.o:
+	$(MAKE) -f CMakeFiles/Genetique_Project.dir/build.make CMakeFiles/Genetique_Project.dir/Test/nsgaorig.c.o
+.PHONY : Test/nsgaorig.c.o
+
+Test/nsgaorig.i: Test/nsgaorig.c.i
+
+.PHONY : Test/nsgaorig.i
+
+# target to preprocess a source file
+Test/nsgaorig.c.i:
+	$(MAKE) -f CMakeFiles/Genetique_Project.dir/build.make CMakeFiles/Genetique_Project.dir/Test/nsgaorig.c.i
+.PHONY : Test/nsgaorig.c.i
+
+Test/nsgaorig.s: Test/nsgaorig.c.s
+
+.PHONY : Test/nsgaorig.s
+
+# target to generate assembly for a file
+Test/nsgaorig.c.s:
+	$(MAKE) -f CMakeFiles/Genetique_Project.dir/build.make CMakeFiles/Genetique_Project.dir/Test/nsgaorig.c.s
+.PHONY : Test/nsgaorig.c.s
+
 main.o: main.c.o
 
 .PHONY : main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... Genetique_Project"
 	@echo "... edit_cache"
+	@echo "... Test/nsgaorig.o"
+	@echo "... Test/nsgaorig.i"
+	@echo "... Test/nsgaorig.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

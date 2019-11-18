@@ -74,6 +74,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/cygdrive/c/Users/coren/Documents/L3 EEA/Tech sci/Genetique_Project/Test/nsgaorig.c">
+			<Option target="Genetique_Project"/>
+		</Unit>
 		<Unit filename="/cygdrive/c/Users/coren/Documents/L3 EEA/Tech sci/Genetique_Project/main.c">
 			<Option target="Genetique_Project"/>
 		</Unit>
