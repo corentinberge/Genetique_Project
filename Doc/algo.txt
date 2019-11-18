@@ -1,0 +1,68 @@
+Cet algorithme se base sur l'évolution des espèces -> modification des
+gènes lors de la "création de nouveaux individus"
+Le but de cet algo est l'amélioration du nouvel individu -> un ensemble
+sera mis en avant lors des itérations (la solution est un ensemble et
+pas une solution unique car elle dépend de la qualité)
+
+
+Déroulement d'un algorithme génétique :
+    - La création de la population initiale (1)
+    - L'évaluation des individus (2)
+    - La création de nouveaux individus (3)
+    - L'insertion des nouveaux individus dans la population (4)
+    - Réitération du processus
+
+
+Comment procéder ?
+
+(1)
+On peut la faire aléatoire (plus de diversité) ou on peut la ciblé pour
+qu'elle corresponde plus à un ensemble de solution
+
+
+(2)
+Chaque individu aura une note qui sera fournit en fonction de ce que
+l'on cherche (ça dépend de la qualité de la solution qu'on veut).
+Faire attention car on ne peut parler de supériorité dans les ensembles
+car aucun vecteur n'est supérieur à un autre (aucun sens sauf longueur).
+2 méthodes d'évaluation vues (dominance dans chacun des critères) :
+    - le rang d'un individu est le nombre d'individus qui le dominent
+    + 1 -> les plus faible rang sont les meilleurs (mais plusieurs
+    individus peuvent avoir le même rang)
+    - on cherce les inividus dominés par personne, on les sort de
+    l'ensemble et on leur attribue 1. On reprends l'ensemble en
+    continuant comme ça jusqu'à plus d'individu -> meilleurs sont ceux
+    de rang 1
+=> METHODE NDS, NSGA
+Cette étape peut être effectuée avant et/ou après les croisements et
+mutations
+
+
+(3)
+On va prendre des morceaux de plusieurs individus pour créer des
+nouveaux individus qui seront, normalement, une meilleure solution à
+notre problème -> On peut le faire aléatoirement ou ciblé
+3 méthodes de créations vues :
+    - Technique de la roulette -> chaque secteur contient des individus
+    suivant leur rang ou choisie arbitrairement puis on tourne la
+    roulette pour croiser
+    - Technique de croisement -> On découpe en N morceaux les individus
+    et on prend un gène de chaque individu pour un créer un nouveau
+    (peut être fait aléatoirement)
+    - Technique de mutation -> On modifie un gène sur les individus déjà
+    présent pour créer un nouvel ensemble (aléatoirement ou ciblé)
+
+
+(4)
+Une fois les nouveaux individus créé, on choisit ceux que l'on garde ou
+non dans l'ensemble ainsi que dans les créé.
+Conseil : Ne pas garder que tout ceux qui viennent d'être créé.
+Souvent on insère les nouveaux indivius dans la population, on trie cette
+population et on ne conserve que les N meilleurs individus (même taille
+qu'au départ)
+
+
+Par la suite on continue à modifier et sélectionner jusqu'à trouver une
+solution convenable ou après N itérations voulues.
+
+Source : https://khayyam.developpez.com/articles/algo/genetic/

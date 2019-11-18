@@ -3,4 +3,4 @@ project(Genetique_Project C)
 
 set(CMAKE_C_STANDARD 90)
 
-add_executable(Genetique_Project main.c)
+add_executable(Genetique_Project main.c Test/nsgaorig.c)
