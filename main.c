@@ -3,11 +3,20 @@
 
 #define SIZE 2000
 
+
+//Change float on bit
 void float_Bit(){
 
 }
 
 
+//Change bit on float
+void bit_Float(){
+
+}
+
+
+//Read a file and store data
 void lecture(FILE* f,float* X, float* Y,int* i){
     while(!feof(f)){
         *i = *i + 1;
