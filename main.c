@@ -3,6 +3,11 @@
 
 #define SIZE 2000
 
+void float_Bit(){
+
+}
+
+
 void lecture(FILE* f,float* X, float* Y,int* i){
     while(!feof(f)){
         *i = *i + 1;

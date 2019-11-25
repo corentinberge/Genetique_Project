@@ -1,8 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Genetique_Project.dir/main.c.o"
+  "Genetique_Project"
   "Genetique_Project.pdb"
-  "Genetique_Project.exe"
-  "libGenetique_Project.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
