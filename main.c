@@ -13,15 +13,19 @@ void float_to_Bit(float F, int* B){
     printf("Y : %d\n",tmp_f);
 
     for(int i = 0;i<SIZE_B;i++){
-        tmp_f = tmp_f/2;
         B[i] = tmp_f%2;
+        tmp_f = tmp_f/2;
     }
 }
 
 
 //Change bit on float
 void bit_to_Float(float* F, int* B){
-
+    int tmp_b = 0;
+    for (int i = 0;i<SIZE_B;i++){
+        tmp_b = tmp_b + B[i]*pow(2,i);
+    }
+    *F = (float)tmp_b*pow(10,-6);
 }
 
 
@@ -57,12 +61,13 @@ int main() {
         printf("%f %f %f\n",X[j].f,Y[j].f,Z[j].f);
     }*/
 
-    int test[SIZE_B],tmp=0;
+    int test[SIZE_B];
+    float tmp;
     float_to_Bit(Y[0],test);
 
-    for(int i = SIZE_B-1;i>=0;i--){
-        printf("%d",test[i]);
-    }
+    bit_to_Float(&tmp,test);
+    printf("test : %f\n",tmp);
+
 
     fclose(fichier);
     free(X);
