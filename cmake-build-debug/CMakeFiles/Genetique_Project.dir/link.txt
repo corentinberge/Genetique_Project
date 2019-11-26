@@ -1,1 +1,1 @@
-/usr/bin/cc -g   CMakeFiles/Genetique_Project.dir/main.c.o  -o Genetique_Project 
+/usr/bin/cc -g   CMakeFiles/Genetique_Project.dir/main.c.o  -o Genetique_Project -lm 
