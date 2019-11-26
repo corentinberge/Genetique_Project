@@ -34,9 +34,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25bea6ff-1dc5-4b51-bcf8-9d990652039f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
-    </list>
+    <list default="true" id="25bea6ff-1dc5-4b51-bcf8-9d990652039f" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +143,7 @@
       <workItem from="1574706931851" duration="106000" />
       <workItem from="1574707280144" duration="21000" />
       <workItem from="1574715660978" duration="9135000" />
-      <workItem from="1574760955950" duration="2696000" />
+      <workItem from="1574760955950" duration="3773000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1574705603616</created>
@@ -182,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574763263886</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Convert is good (bit -&gt; float)">
+      <created>1574763668826</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1574763668826</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,6 +211,7 @@
     <MESSAGE value="Add a def to have bit and float in one type" />
     <MESSAGE value="Add some things" />
     <MESSAGE value="Convert is good (float -&gt; bit)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Convert is good (float -&gt; bit)" />
+    <MESSAGE value="Convert is good (bit -&gt; float)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Convert is good (bit -&gt; float)" />
   </component>
 </project>
