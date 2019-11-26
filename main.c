@@ -22,14 +22,28 @@ void float_to_Bit(Float_Bit F,Float_Bit* B){
     int e = (int)tmp_f,i=0;
     B->Bit.s = (tmp_f != F.f);
 
-    printf("%f\t%d",tmp_f,e);
     tmp_f = tmp_f-(float)e;
-    while((e/2 != 0) || (i<8)){
+    while(e != tmp_f){
+        tmp_f = tmp_f*10;
+        e = tmp_f;
+        i++;
+        printf("\n%d\t%f",e,tmp_f);
+    }
+
+    for(int j = 0;j<i;j++){
+        tmp_f = tmp_f/10;
+    }
+
+    e = i-129;
+    i = 0;
+
+    while (e/2 != 0 || i < 8){
         e = e/2;
-        B->Bit.e[i] = e%2;
-        printf("%d",B->Bit.e[i]);
+        B->Bit.e[i] = (e%2)+1;
         i++;
     }
+
+    printf("%d\t%f\n",e,tmp_f);
 
     i=0;
     while(i<23){
@@ -47,18 +61,18 @@ void float_to_Bit(Float_Bit F,Float_Bit* B){
 
 
 //Change bit on float
-void bit_to_Float(Float_Bit B){
+void bit_to_Float(Float_Bit* F, Float_Bit B){
     float m = 0;
     int e = 0;
-    for(int i = -SIZE_M;i<0;i++){
-        m = m + B.Bit.m[i+(SIZE_M)]*pow(2.,i);
+    for(int i = (SIZE_M-1);i>=0;i--){
+        m = m + B.Bit.m[i]*pow(2.,(i-SIZE_M));
     }
     for (int i = 0;i<8;i++){
         e = e + B.Bit.e[i]*pow(2.,i);
     }
-    B.f = e + m;
+    F->f = e + m;
     if (B.Bit.s == 1){
-        B.f = -B.f;
+        F->f = -(F->f);
     }
 }
 
@@ -108,7 +122,7 @@ int main() {
     for (int i=0;i<23;i++){
         printf("%d",test.Bit.m[i]);
     }
-    bit_to_Float(test);
+    bit_to_Float(&test,test);
     printf("\n%f\n",test.f);
     fclose(fichier);
     free(X);
