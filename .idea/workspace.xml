@@ -35,8 +35,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="25bea6ff-1dc5-4b51-bcf8-9d990652039f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Genetique_Project.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Genetique_Project.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -147,6 +146,8 @@
       <workItem from="1574706931851" duration="106000" />
       <workItem from="1574707280144" duration="21000" />
       <workItem from="1574715660978" duration="9135000" />
+      <workItem from="1574760955950" duration="3815000" />
+      <workItem from="1575376982048" duration="472000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1574705603616</created>
@@ -176,7 +177,28 @@
       <option name="project" value="LOCAL" />
       <updated>1574721256060</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Convert is good (float -&gt; bit)">
+      <created>1574763263886</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1574763263886</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Convert is good (bit -&gt; float)">
+      <created>1574763668826</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1574763668826</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Add something">
+      <created>1574765750725</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1574765750725</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,6 +221,9 @@
     <MESSAGE value="test" />
     <MESSAGE value="Add a def to have bit and float in one type" />
     <MESSAGE value="Add some things" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add some things" />
+    <MESSAGE value="Convert is good (float -&gt; bit)" />
+    <MESSAGE value="Convert is good (bit -&gt; float)" />
+    <MESSAGE value="Add something" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add something" />
   </component>
 </project>
