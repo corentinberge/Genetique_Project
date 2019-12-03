@@ -6,6 +6,14 @@
 #define SIZE_B 20
 
 
+struct {
+    int Y;
+    int B;
+    int l;
+    int d;
+} Lorentz;
+
+
 //Change float on bit
 void float_to_Bit(float F, int* B){
     int tmp_f = F*pow(10,6);
