@@ -2,10 +2,9 @@
 #include <malloc.h>
 #include <math.h>
 
-#define SIZE 2000
-#define SIZE_B 20
+#define SIZE 5000
 
-
+//Definition of a Gene, with 4 parameters
 struct {
     int Y;
     int B;
@@ -13,49 +12,35 @@ struct {
     int d;
 } Lorentz;
 
-
-//Change float on bit
-void float_to_Bit(float F, int* B){
-    int tmp_f = F*pow(10,6);
-
-    printf("Y : %d\n",tmp_f);
-
-    for(int i = 0;i<SIZE_B;i++){
-        B[i] = tmp_f%2;
-        tmp_f = tmp_f/2;
-    }
-}
-
-
-//Change bit on float
-void bit_to_Float(float* F, int* B){
-    int tmp_b = 0;
-    for (int i = 0;i<SIZE_B;i++){
-        tmp_b = tmp_b + B[i]*pow(2,i);
-    }
-    *F = (float)tmp_b*pow(10,-6);
-}
+//Definition of 3 float for the profil we have
+typedef
+struct {
+    float A;
+    float B;
+    float C;
+} Val;
 
 
 //Read a file and store data
-void lecture(FILE* f, float* X, float* Y, float* Z, int* i){
+void lecture(FILE* f, Val* t, int* i){
     while(!feof(f)){
         *i = *i + 1;
-        if (*i%SIZE == 0){
-            X = realloc(X,((SIZE) + (*i)) * sizeof(float));
-            Y = realloc(Y,((SIZE) + (*i)) * sizeof(float));
+        if ((*i)%SIZE == 0){
+            printf("\nERREUR INSTANT DE MEMOIRE!\n\n");
+            t = realloc(t, SIZE * sizeof(Val));
         }
-        fscanf(f,"%f %f %f",&X[*i],&Y[*i],&Z[*i]);
-        //printf("%d : %f\t%f\t%f\n",*i,X[*i].f,Y[*i].f,Z[*i].f);
+        fflush(stdin);
+        fscanf(f,"%f %f %f",&t[*i].A,&t[*i].B,&t[*i].C);
+        //printf("%d : %f\t%f\t%f\n",*i,X[*i],Y[*i],Z[*i]);
     }
+    *i = *i + 1;
 }
 
 
 int main() {
-    float *X = malloc(sizeof(float) * SIZE);
-    float *Y = malloc(sizeof(float) * SIZE);
-    float *Z = malloc(sizeof(float) * SIZE);
-    if ((X == NULL) || (Y == NULL)){
+    Val *tab = malloc(sizeof(Val) * SIZE);
+    if (tab == NULL){
+        printf("Erreur lors de l'allocation de l'esapce mémoire\n");
         return 1;
     }
     int size = -1;
@@ -64,22 +49,13 @@ int main() {
         printf("Impossible d'ouvrir le fichier !\n");
         return 2;
     }
-    lecture(fichier,X,Y,Z,&size);
-    /*for(int j=0;j<size;j++){
-        printf("%f %f %f\n",X[j].f,Y[j].f,Z[j].f);
-    }*/
-
-    int test[SIZE_B];
-    float tmp;
-    float_to_Bit(Y[0],test);
-
-    bit_to_Float(&tmp,test);
-    printf("test : %f\n",tmp);
+    lecture(fichier,tab,&size);
+    for(int j=0;j<size;j++){
+        printf("%f %f %f\n",tab[j].A,tab[j].B,tab[j].C);
+    }
 
 
     fclose(fichier);
-    free(X);
-    free(Y);
-    free(Z);
+    free(tab);
     return 0;
 }

@@ -148,6 +148,10 @@
       <workItem from="1574715660978" duration="9135000" />
       <workItem from="1574760955950" duration="3815000" />
       <workItem from="1575376982048" duration="472000" />
+      <workItem from="1575377524448" duration="521000" />
+      <workItem from="1575378262902" duration="35000" />
+      <workItem from="1575378364375" duration="945000" />
+      <workItem from="1575379524255" duration="1508000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1574705603616</created>
@@ -198,7 +202,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574765750725</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="struct">
+      <created>1575377627527</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1575377627527</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,6 +235,7 @@
     <MESSAGE value="Convert is good (float -&gt; bit)" />
     <MESSAGE value="Convert is good (bit -&gt; float)" />
     <MESSAGE value="Add something" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add something" />
+    <MESSAGE value="struct" />
+    <option name="LAST_COMMIT_MESSAGE" value="struct" />
   </component>
 </project>
