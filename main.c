@@ -1,5 +1,7 @@
+#ifdef DEBUG
+
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <math.h>
 
 #define SIZE 5000
@@ -44,6 +46,7 @@ int main() {
         return 1;
     }
     int size = -1;
+
     FILE *fichier = NULL;
     if ((fichier = fopen("/home/corentinberge/Documents/L3_EEA/Tech_Sci/Genetique_Project/Doc/A_Genetique_Profil.txt",
                          "r")) == NULL) {
