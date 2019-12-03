@@ -1,12 +1,12 @@
-#ifdef DEBUG
-
 #include <stdio.h>
-#include <stdlib.h>
+#include <malloc.h>
 #include <math.h>
 
 #define SIZE 5000
+#define SIZE_POP 1000
 
 //Definition of a Gene, with 4 parameters
+typedef
 struct {
     int Y;
     int B;
@@ -26,27 +26,44 @@ struct {
 //Read a file and store data
 void lecture(FILE* f, Val* t, int* i){
     while(!feof(f)){
-        *i = *i + 1;
+
         if ((*i)%SIZE == 0){
-            printf("\nERREUR INSTANT DE MEMOIRE!\n\n");
+            //printf("\nERREUR INSTANT DE MEMOIRE!\n\n");
             t = realloc(t, SIZE * sizeof(Val));
         }
         fflush(stdin);
         fscanf(f,"%f %f %f",&t[*i].A,&t[*i].B,&t[*i].C);
         //printf("%d : %f\t%f\t%f\n",*i,X[*i],Y[*i],Z[*i]);
+        *i = *i + 1;
     }
-    *i = *i + 1;
 }
+
+
+void create_population(Lorentz *L)
+{
+    int i;
+    for(i=0;i<SIZE_POP;i++)
+    {
+        L[i].Y=rand() % 10000;
+        L[i].B=rand() % 10000;
+        L[i].l=rand() % 10000;
+        L[i].d=rand() % 10000;
+    }
+}
+
+
+//Fonction de mutation
+void mutation();
 
 
 int main() {
     Val *tab = malloc(sizeof(Val) * SIZE);
+    Lorentz pop[SIZE_POP];
     if (tab == NULL) {
         printf("Erreur lors de l'allocation de l'esapce mémoire\n");
         return 1;
     }
-    int size = -1;
-
+    int size = 0;
     FILE *fichier = NULL;
     if ((fichier = fopen("/home/corentinberge/Documents/L3_EEA/Tech_Sci/Genetique_Project/Doc/A_Genetique_Profil.txt",
                          "r")) == NULL) {
@@ -54,10 +71,15 @@ int main() {
         return 2;
     }
     lecture(fichier, tab, &size);
-    /*for(int j=0;j<size;j++){
+    for(int j=0;j<size;j++){
         printf("%f %f %f\n",tab[j].A,tab[j].B,tab[j].C);
-    }*/
+    }
 
+    create_population(pop);
+
+    for(int i = 0;i<SIZE_POP;i++){
+        printf("%d  %d  %d  %d\n",pop[i].Y,pop[i].B,pop[i].l,pop[i].d);
+    }
 
     fclose(fichier);
     free(tab);
