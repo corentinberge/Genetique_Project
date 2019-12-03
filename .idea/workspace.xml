@@ -151,7 +151,7 @@
       <workItem from="1575377524448" duration="521000" />
       <workItem from="1575378262902" duration="35000" />
       <workItem from="1575378364375" duration="945000" />
-      <workItem from="1575379524255" duration="1508000" />
+      <workItem from="1575379524255" duration="2221000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1574705603616</created>
@@ -209,7 +209,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575377627527</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="struct * 2 + read file">
+      <created>1575381052825</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1575381052825</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,6 +243,7 @@
     <MESSAGE value="Convert is good (bit -&gt; float)" />
     <MESSAGE value="Add something" />
     <MESSAGE value="struct" />
-    <option name="LAST_COMMIT_MESSAGE" value="struct" />
+    <MESSAGE value="struct * 2 + read file" />
+    <option name="LAST_COMMIT_MESSAGE" value="struct * 2 + read file" />
   </component>
 </project>
