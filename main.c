@@ -6,7 +6,7 @@
 
 #include <assert.h>
 
-#define SIZE 10
+#define SIZE_ALLOC 10
 #define SIZE_POPULATION 100
 #define PRECISION 10000
 #define SIZE_BIT 26
@@ -26,12 +26,13 @@ Valeurs approchées :
 
 
 //https://stackoverflow.com/questions/6418807/how-to-work-with-complex-numbers-in-c
+
 typedef
 struct {
-  unsigned int bit_Y[SIZE_BIT];
-  unsigned int bit_B[SIZE_BIT];
-  unsigned int bit_l[SIZE_BIT];
-  unsigned int bit_d[SIZE_BIT];
+  unsigned int* bit_Y;
+  unsigned int* bit_B;
+  unsigned int* bit_l;
+  unsigned int* bit_d;
   double c;
 } Bit;
 
@@ -39,10 +40,10 @@ struct {
 //Definition For the 4 variables
 typedef
 struct {
-    int Y;
-    int B;
-    int l;
-    int d;
+    unsigned int Y;
+    unsigned int B;
+    unsigned int l;
+    unsigned int d;
 } Lorentz;
 
 
@@ -63,54 +64,45 @@ struct {
 } Val;
 
 
-// //Read a file and store data
-// void lecture(FILE* f, Val* t, int* i){
-//
-//     while(!feof(f)){
-//         *i = *i + 1;
-//         if ((*i)%SIZE == 0){
-//             printf("\nERREUR INSTANT DE MEMOIRE!\n\n");
-//             t = realloc(t, SIZE * sizeof(Val));
-//         }
-//         fflush(stdin);
-//         fscanf(f,"%f %f %f",&t[*i].A,&t[*i].B,&t[*i].C);
-//         //printf("%d : %f\t%f\t%f\n",*i,X[*i],Y[*i],Z[*i]);
-//     }
-//     *i = *i + 1;
-// }
-
 Val* lecture(char* nomFichier, int* i){
 
   FILE *f = NULL;
+  unsigned int test;
+
   if ((f = fopen(nomFichier, "r")) == NULL) {
     printf("Impossible d'ouvrir le fichier !\n");
     exit(-1);
   }
 
-  int bloc_alloc = SIZE; // On réalloc par bloc pour gagner du temps
+  int bloc_alloc = SIZE_ALLOC; // On réalloc par bloc pour gagner du temps
 
-  Val *t = malloc(sizeof(Val) * 10);
+  Val *t = malloc(sizeof(Val) * SIZE_ALLOC);
   if (t == NULL) {
     printf("Erreur lors de l'allocation de l'esapce mémoire\n");
     exit(-1);
   }
   printf("\n\nDébut du lecture du fichier... \n\n");
   while(!feof(f)){
-    printf("## Lecture ligne numéro: i=%d  ## Taille alloué au tableau Val: bloc_alloc=%d\n", *i, bloc_alloc);
+    //printf("## Lecture ligne numéro: i=%d  ## Taille alloué au tableau Val: bloc_alloc=%d\n", *i, bloc_alloc);
     if (*i >= bloc_alloc) { // Compteur pour savoir quand realloc
-      bloc_alloc += 10;
-      printf("\n## REALLOCATION : Nouvelle taille: %d\n\n", bloc_alloc);
+      bloc_alloc += SIZE_ALLOC;
+      //printf("\n## REALLOCATION : Nouvelle taille: %d\n\n", bloc_alloc);
       t = realloc(t, sizeof(t)*(bloc_alloc) * sizeof(Val));
     }
 
     fflush(stdin);
-    fscanf(f,"%f %f %f",&t[*i].A,&t[*i].B,&t[*i].C);
+    test = fscanf(f,"%f %f %f",&t[*i].A,&t[*i].B,&t[*i].C);
+    if(test != 3){
+      printf("\n\nErreur de lecture dans les lignes du fichier !\n\n");
+      exit(-1);
+    }
     *i = *i + 1;
 
     //printf("%d : %f\t%f\t%f\n",*i,X[*i],Y[*i],Z[*i]);
   }
 
   //Close the file (free memory)
+  printf("\n\nAllocation de %d blocs mémoire pour la lecture.\n\n", bloc_alloc);
   printf("\n\nLecture du fichier terminé ! \n\n");
   fclose(f);
   return t;
@@ -119,10 +111,37 @@ Val* lecture(char* nomFichier, int* i){
 
 //Make binary with integer
 void int_To_Bit(Gene G, Bit *B){
-  int tmp_Gene = G.L.Y,i = 0;
+  unsigned int tmp_Gene = G.L.Y,i = 0;
   while(tmp_Gene != 0){
     //printf("%d %d\n",tmp_Gene,tmp_Gene%2);
     B->bit_Y[i] = tmp_Gene%2;
+    tmp_Gene = tmp_Gene/2;
+    i++;
+  }
+
+  tmp_Gene = G.L.B;
+  i = 0;
+  while(tmp_Gene != 0){
+    //printf("%d %d\n",tmp_Gene,tmp_Gene%2);
+    B->bit_B[i] = tmp_Gene%2;
+    tmp_Gene = tmp_Gene/2;
+    i++;
+  }
+
+  tmp_Gene = G.L.l;
+  i = 0;
+  while(tmp_Gene != 0){
+    //printf("%d %d\n",tmp_Gene,tmp_Gene%2);
+    B->bit_l[i] = tmp_Gene%2;
+    tmp_Gene = tmp_Gene/2;
+    i++;
+  }
+
+  tmp_Gene = G.L.d;
+  i = 0;
+  while(tmp_Gene != 0){
+    //printf("%ld %ld\n",tmp_Gene,tmp_Gene%2);
+    B->bit_d[i] = tmp_Gene%2;
     tmp_Gene = tmp_Gene/2;
     i++;
   }
@@ -131,11 +150,37 @@ void int_To_Bit(Gene G, Bit *B){
 
 //Make integer with binary
 void bit_To_Int(Gene *G, Bit B){
-  int tmp_G = 0;
+  unsigned int tmp_Y = 0,tmp_B = 0, tmp_l = 0, tmp_d = 0 , p;
   for(int i = 0;i<SIZE_BIT;i++){
-    tmp_G = tmp_G + B.bit_Y[i]*pow(2,i);
+    p = pow(2,i);
+    //printf("Bit : %d\t%d %d\n",i,B.bit_Y[i],B.bit_B[i]);
+    tmp_Y = tmp_Y + B.bit_Y[i]*p;
+    tmp_B = tmp_B + B.bit_B[i]*p;
+    tmp_l = tmp_l + B.bit_l[i]*p;
+    tmp_d = tmp_d + B.bit_d[i]*p;
   }
-  G->L.Y = tmp_G;
+  //printf("%d %d\n",tmp_Y, tmp_B);
+  G->L.Y = tmp_Y;
+  G->L.B = tmp_B;
+  G->L.l = tmp_l;
+  G->L.d = tmp_d;
+  //printf("\n");
+}
+
+
+//Convert a Int population to a Bit population
+void convert_Bit(Gene *G, Bit *B){
+  for(int i = 0; i<SIZE_POPULATION;i++){
+    int_To_Bit(G[i],&B[i]);
+  }
+}
+
+
+//Convert a Bit population to a Int population
+void convert_Int(Gene *G, Bit *B){
+  for(int i = 0; i<SIZE_POPULATION;i++){
+    bit_To_Int(&G[i],B[i]);
+  }
 }
 
 
@@ -145,23 +190,59 @@ void create_population(Gene *G)
   srand(time(NULL)); // initialisation de rand
     for(int i=0;i<SIZE_POPULATION;i++)
     {
-      G[i].L.Y=rand()%(3000 - 150) + 150;
-      G[i].L.B=rand()%60000;
+      G[i].L.Y=rand()%(2500 - 150) + 150;
+      G[i].L.B=rand()%(70000 - 50000) + 50000;
       G[i].L.l=rand()%(65640000 - 65600000) + 65600000;
       G[i].L.d=rand()%(300000 - 100000) + 100000;
     }
 }
 
 
+//Initialize tab Bit
+Bit* init_Bit(){
+  Bit* B = malloc(SIZE_POPULATION * sizeof(Bit));
+  for(int i = 0;i<SIZE_POPULATION;i++){
+    B[i].bit_Y = malloc((SIZE_BIT) * sizeof(unsigned int));
+    B[i].bit_B = malloc((SIZE_BIT) * sizeof(unsigned int));
+    B[i].bit_l = malloc((SIZE_BIT) * sizeof(unsigned int));
+    B[i].bit_d = malloc((SIZE_BIT) * sizeof(unsigned int));
+  }
+  return B;
+}
+
+
 //Test the population
-void test_population(Gene *G){
-  double complex tmp_1;//,tmp_2,tmp_3;
-  tmp_1 = (double)(G[0].L.Y)/PRECISION + ((double)(G[0].L.B)/PRECISION)*(I/(cpow(6500-(double)(G[0].L.l)/PRECISION,2) + cpow(((double)(G[0].L.d)/PRECISION)/2,2)));
-  printf("%.12f\t%.12f\n", creal(tmp_1), cimag(tmp_1));
-  /*for(int i = 0;i<SIZE_POPULATION;i++){
-    tmp_1 = G[i].L.Y + G[i].L.B*(I/(pow(6500-G[i].L.l,2) + pow((G[i].L.d)/2,2)));
-    printf("")
-  }*/
+void test_population(Gene *G, Val *V, int size_tab){
+  double complex tmp;
+  double module, moy;
+  for(int i = 0;i<SIZE_POPULATION;i++){
+    moy = 0;
+    for(int j = 0;j<size_tab;j++){
+      tmp = (double)(G[i].L.Y)/PRECISION + ((double)(G[i].L.B)/PRECISION)*(I/(cpow(V[j].A-(double)(G[i].L.l)/PRECISION,2) + cpow(((double)(G[i].L.d)/PRECISION)/2,2)));
+      module = sqrt(pow(creal(tmp),2) + pow(cimag(tmp),2));
+      moy = moy + fabs(V[j].C - module);
+    }
+    moy = moy / size_tab;
+    G[i].c = moy;
+    /*moy = 0;
+    tmp = (double)(G[i].L.Y)/PRECISION + ((double)(G[i].L.B)/PRECISION)*(I/(cpow(6500-(double)(G[i].L.l)/PRECISION,2) + cpow(((double)(G[i].L.d)/PRECISION)/2,2)));
+    module = sqrt(creal(tmp)*creal(tmp) + cimag(tmp)*cimag(tmp));
+    moy = moy + (V[159].C - module);
+    tmp = (double)(G[i].L.Y)/PRECISION + ((double)(G[i].L.B)/PRECISION)*(I/(cpow(6550-(double)(G[i].L.l)/PRECISION,2) + cpow(((double)(G[i].L.d)/PRECISION)/2,2)));
+    module = sqrt(creal(tmp)*creal(tmp) + cimag(tmp)*cimag(tmp));
+    moy = moy + (V[442].C - module);
+    tmp = (double)(G[i].L.Y)/PRECISION + ((double)(G[i].L.B)/PRECISION)*(I/(cpow(6562-(double)(G[i].L.l)/PRECISION,2) + cpow(((double)(G[i].L.d)/PRECISION)/2,2)));
+    module = sqrt(creal(tmp)*creal(tmp) + cimag(tmp)*cimag(tmp));
+    moy = moy + (V[503].C - module);
+    tmp = (double)(G[i].L.Y)/PRECISION + ((double)(G[i].L.B)/PRECISION)*(I/(cpow(6573-(double)(G[i].L.l)/PRECISION,2) + cpow(((double)(G[i].L.d)/PRECISION)/2,2)));
+    module = sqrt(creal(tmp)*creal(tmp) + cimag(tmp)*cimag(tmp));
+    moy = moy + (V[568].C - module);
+    tmp = (double)(G[i].L.Y)/PRECISION + ((double)(G[i].L.B)/PRECISION)*(I/(cpow(6600-(double)(G[i].L.l)/PRECISION,2) + cpow(((double)(G[i].L.d)/PRECISION)/2,2)));
+    module = sqrt(creal(tmp)*creal(tmp) + cimag(tmp)*cimag(tmp));
+    moy = moy + (V[716].C - module);
+    moy = moy / 5;
+    G[i].c = moy;*/
+  }
 }
 
 
@@ -188,6 +269,7 @@ int partitionnerInv(Gene* T, int p, int r){
   }
 }
 
+
 void tri_rapide(Gene* T, int ind_premier, int ind_dernier){
   int ind_pivot;
   if(ind_premier < ind_dernier){
@@ -196,6 +278,8 @@ void tri_rapide(Gene* T, int ind_premier, int ind_dernier){
     tri_rapide(T, ind_pivot +1, ind_dernier);
   }
 }
+
+
 //Put together gene
 void mix_population(Bit *B){
 
@@ -218,121 +302,79 @@ void mix_population(Bit *B){
         B[i+(SIZE_POPULATION)/2].bit_d[j+8] = B[(i+1)%(SIZE_POPULATION/2)].bit_d[j+8];
       }
 
-      //26 bits max pour Y
+      //26 bits max pour l
       B[i+(SIZE_POPULATION)/2].bit_l[j] = B[i].bit_l[j];
       B[i+(SIZE_POPULATION)/2].bit_l[j+13] = B[(i+1)%(SIZE_POPULATION/2)].bit_l[j+13];
 
     }
+  }
+}
 
+
+//Mutate a bit
+void mutation(Bit *B){
+  int r;
+
+  for(int i = 50;i<SIZE_POPULATION;i++){
+    //12 bits max pour Y
+    r = rand()%12;
+    B[i].bit_Y[r] = 1 - B[i].bit_Y[r];
+
+    //16 bits max pour B et d
+    r = rand()%16;
+    B[i].bit_B[r] = 1 - B[i].bit_B[r];
+
+    r = rand()%16;
+    B[i].bit_d[r] = 1 - B[i].bit_d[r];
+
+    //26 bits max pour Y
+    r = rand()%26;
+    B[i].bit_l[r] = 1 - B[i].bit_l[r];
   }
 }
 
 
 int main() {
 
-    Gene pop[SIZE_POPULATION];
-    Bit pop_Bit[SIZE_POPULATION];
+    Gene* pop = malloc((SIZE_POPULATION + 1)*sizeof(Gene));
+    Bit* pop_Bit = init_Bit();
 
     //Read the file
     int size_Tab = 0;
     Val* tab = lecture(NOM_FICHIER,&size_Tab);
 
-    //Print initial
-    /*for(int j=0;j<size;j++){
-        printf("%f %f %f\n",tab[j].A,tab[j].B,tab[j].C);
-    }*/
-
 
     //Create population
     create_population(pop);
-    //Print initial population
-    /*for(int j=0;j<SIZE_POPULATION;j++){
-      printf("%d %d %d %d\n",pop[j].L.Y,pop[j].L.B,pop[j].L.l,pop[j].L.d);
-    }*/
+
+
+    test_population(pop, tab, size_Tab);
+
+    tri_rapide(pop, 0, SIZE_POPULATION-1);
+
 
     //Convert int in bit
-    for(int i = 0;i<SIZE_POPULATION;i++){
-      int_To_Bit(pop[i],&pop_Bit[i]);
+    for(int tmp = 0;tmp < 100; tmp++){
+
+      printf("Itération: %d\n",tmp);
+
+      convert_Bit(pop,pop_Bit);
+
+      mix_population(pop_Bit);
+
+      mutation(pop_Bit);
+
+      convert_Int(pop,pop_Bit);
+      test_population(pop, tab, size_Tab);
+      tri_rapide(pop, 0, SIZE_POPULATION-1);
+
+      //printf("tmp : %d\n",tmp);
+
     }
 
-    // Gene tableau[N];
-    // tableau[0].c = 14;
-    // tableau[1].c = 13;
-    // tableau[2].c = 12;
-    // tableau[3].c = 11;
-    // tableau[4].c = 10;
-    // tableau[5].c = 9;
-    // tableau[6].c = 8;
-    // tableau[7].c = 7;
-    // tableau[8].c = 5;
-    // tableau[9].c = 4;
-    // tableau[10].c = 3;
-    // tableau[11].c = 98;
-    // tableau[12].c = 80;
-    // tableau[13].c = 70;
-    // tableau[14].c = 60;
-    //
-    // printf("\nTableau avant le tri rapide...\n");
-    // for (int i =0; i < N; ++i){
-    //   printf("tableau[%d].c = %f\n", i, tableau[i].c);
-    // }
-    //
-    // tri_rapide(tableau, 0, N-1);
-    //
-    // printf("\nTableau après le tri rapide...\n");
-    //
-    // for (int i =0; i < N; ++i){
-    //   printf("tableau[%d].c = %f\n", i, tableau[i].c);
-    // }
-    // TEST for the conversion
-    int_To_Bit(pop[0],&pop_Bit[0]);
-    int_To_Bit(pop[1],&pop_Bit[1]);
-    printf("Chiffre : %d\n",pop[0].L.Y);
-    for(int j=0;j<12;j++){
-      printf("%d\n",pop_Bit[0].bit_Y[j]);
-    }
-
-    printf("Chiffre : %d\n",pop[1].L.Y);
-    for(int j=0;j<12;j++){
-      printf("%d\n",pop_Bit[1].bit_Y[j]);
-    }
-
-    printf("\n");
-    mix_population(pop_Bit);
-    for(int j=0;j<12;j++){
-      printf("%d\n",pop_Bit[50].bit_Y[j]);
-    }
-    bit_To_Int(&pop[2],pop_Bit[50]);
-    printf("Chiffre : %d\n",pop[2].L.Y);
-
-
-    mix_population(pop_Bit);
-
-    //Print mix population
-    /*for(int j=0;j<SIZE_POPULATION;j++){
-      printf("%d %d %d %d\n",pop[j].L.Y,pop[j].L.B,pop[j].L.l,pop[j].L.d);
-    }*/
-
-  test_population(pop);
-
-
-
-
-    /*Gene test_G,test_G2;
-    Bit test_B;
-    for(int j = SIZE_BIT-1;j>=0;j--){
-      test_B.bit_Y[j] = 0;
-    }
-    test_G.L.Y = 511;
-    int_To_Bit(test_G, &test_B);
-    for(int j = SIZE_BIT-1;j>=0;j--){
-      printf("%d : %d\n",j,test_B.bit_Y[j]);
-    }
-    printf("\n");
-    bit_To_Int(&test_G2, test_B);
-    printf("G : %d\n", test_G2.L.Y);*/
+    printf("\n\n%f %f %f %f\n",(double)pop[0].L.Y/PRECISION,(double)pop[0].L.B/PRECISION,(double)pop[0].L.l/PRECISION,(double)pop[0].L.d/PRECISION);
 
     //Free all the table
-    free(tab);
+    //free(tab);
     return 0;
 }
